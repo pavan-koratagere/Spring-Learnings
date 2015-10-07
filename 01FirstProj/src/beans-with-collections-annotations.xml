@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+  <context:component-scan base-package="com.emc.training.collections.annotations"></context:component-scan>
+  
+   <bean id="add1" class="com.emc.training.collections.annotations.Address">
+    <property name="location" value="1st block"></property>
+    <property name="city" value="Bangalore"></property>
+  </bean>
+  <bean id="add2" class="com.emc.training.collections.annotations.Address">
+    <property name="location" value="2nd block"></property>
+    <property name="city" value="Bangalore"></property>
+  </bean>
+  <bean id="add3" class="com.emc.training.collections.annotations.Address">
+    <property name="location" value="3rd block"></property>
+    <property name="city" value="Bangalore"></property>
+  </bean>
+</beans>

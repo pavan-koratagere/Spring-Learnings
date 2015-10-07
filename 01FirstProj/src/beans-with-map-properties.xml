@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:util="http://www.springframework.org/schema/util"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+<!--  if ClassPathXmlApplicationContext no classpath: reference is needed. -->
+    <util:properties id = "remarks-prop" location="classpath:remarks.properties"></util:properties>
+
+  <bean id="employee" class="com.emc.training.map.xml.Employee">
+  <constructor-arg value="Aravind"></constructor-arg>
+    <!-- <property name="empName" value="Aravind"></property> -->
+    <property name="map">
+      <map>
+        <entry key="karnataka" value-ref="add1"></entry>
+        <entry key="maharastra" value-ref="add2"></entry>
+      </map>
+    </property>
+    <property name="remarks" ref="remarks-prop"/>
+    <!-- <property name="remarks">
+    <props>
+        <prop key="accountType">RD</prop>
+        <prop key="duration">6 years</prop>
+    </props>
+    </property> -->
+
+  </bean>
+
+  <bean id="add1" class="com.emc.training.map.xml.Address" scope="prototype">
+    <property name="location" value="Jayanagar 1"></property>
+    <property name="city" value="Bangalore"></property>
+  </bean>
+
+  <bean id="add2" class="com.emc.training.map.xml.Address" scope="prototype">
+    <property name="location" value="Jayanagar 2"></property>
+    <property name="city" value="Bangalore"></property>
+  </bean>
+
+</beans>

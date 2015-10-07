@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+  <bean id="BasicDataSource" class="org.apache.commons.dbcp.BasicDataSource">
+    <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+    <property name="url" value="jdbc:mysql://localhost:3306/corespringdb"></property>
+    <property name="username" value="root"></property>
+    <property name="password" value="Password@123"></property>
+    <property name="minIdle" value="1"></property>
+    <property name="maxActive" value="10"></property>
+  </bean>
+
+  <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+    <property name="dataSource" ref="BasicDataSource"></property>
+    <property name="annotatedClasses">
+      <list>
+        <value>com.emc.training.spring.hibernate.annotations.Employee</value>
+        <value>com.emc.training.spring.hibernate.annotations.Address</value>
+      </list>
+    </property>
+    <property name="hibernateProperties">
+      <props>
+        <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+        <prop key="hibernate.hbm2ddl.auto">create</prop>
+        <prop key="hibernate.show_sql">true</prop>
+      </props>
+    </property>
+  </bean>
+
+
+  <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+    <property name="sessionFactory" ref="sessionFactory"></property>
+  </bean>
+
+  <bean id="txMgr" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    <property name="sessionFactory" ref="sessionFactory"></property>
+  </bean>
+
+  <!-- <tx:annotation-driven transaction-manager="txMgr" /> -->
+  <tx:advice id="txAdvice" transaction-manager="txMgr">
+    <tx:attributes>
+      <tx:method name="addEmployee" propagation="REQUIRED" />
+    </tx:attributes>
+  </tx:advice>
+
+  <aop:config>
+    <aop:pointcut expression="target(com.emc.training.spring.hibernate.annotations.EmployeeDAO)" id="empPointcut" />
+    <aop:advisor advice-ref="txAdvice" pointcut-ref="empPointcut" />
+  </aop:config>
+
+  <context:component-scan base-package="com.emc.training.spring.hibernate.annotations"></context:component-scan>
+</beans>

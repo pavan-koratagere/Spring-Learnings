@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script type="text/javascript">
+	onload = function() {
+		document.getElementById("btnSend").onclick = sendRequest;
+		document.getElementById("btnPost").onclick = postRequest;
+	};
+	var req;
+	function sendRequest() {
+		req = new XMLHttpRequest();
+		req
+				.open("GET", "http://localhost:8080/10SpringRestProj/rest/emp",
+						true);
+		req.setRequestHeader("Accept", "application/json");
+		req.onreadystatechange = handleResponse;
+		req.send(null);
+	}
+	function postRequest() {
+		req = new XMLHttpRequest();
+		req.open("POST", "http://localhost:8080/10SpringRestProj/rest/emp",
+				true);
+		req.setRequestHeader("Content-Type", "application/json");
+		req.onreadystatechange = handlePostResponse;
+		
+		var name = document.getElementById("txtName").value;
+		var designation = document.getElementById("txtDesignation").value;
+	//	var obj = "{\"name\":\"" + name + "\", \"designation\":'\" + designation + "\"}";
+		var obj = '{"name":"' + name + '", "designation":"' + designation + '"}';
+		
+		//alert(obj);
+		req.send(obj);
+	}
+
+	function handlePostResponse() {
+		if (req.readyState == 4 && req.status == 200) {
+			document.getElementById("div2").innerHTML = req.responseText;
+			/* var employees = JSON.parse(req.responseText);
+			var response = "<table border=1><tr><th>Id</th><th>Name</th><th>Designation</th></tr>";
+			for (var i = 0; i < employees.list.length; i++) {
+				response += "<tr>";
+				response += "<td>" + employees.list[i].id + "</td>";
+				response += "<td>" + employees.list[i].name + "</td>";
+				response += "<td>" + employees.list[i].designation + "</td>";
+				response += "</tr>";
+			}
+			response += "</table>";
+			document.getElementById("div1").innerHTML = response; */
+		}
+	}
+	function handleResponse() {
+		if (req.readyState == 4 && req.status == 200) {
+			//alert(req.responseText);
+			var employees = JSON.parse(req.responseText);
+			var response = "<table border=1><tr><th>Id</th><th>Name</th><th>Designation</th></tr>";
+			for (var i = 0; i < employees.list.length; i++) {
+				response += "<tr>";
+				response += "<td>" + employees.list[i].id + "</td>";
+				response += "<td>" + employees.list[i].name + "</td>";
+				response += "<td>" + employees.list[i].designation + "</td>";
+				response += "</tr>";
+			}
+			response += "</table>";
+			document.getElementById("div1").innerHTML = response;
+		}
+	}
+</script>
+</head>
+<body>
+   <button id="btnSend">Send Ajax Request</button>
+   <br>
+   <div id="div1">This part will be replaced with ajax response once you click the button.</div>
+   <br>
+
+    <h3>Name:</h3> <input type="text" id="txtName">
+    <h3>Designation:</h3> <input type="text" id="txtDesignation">
+   <button id="btnPost">Add Employee</button>
+   <br>
+   
+   <div id="div2"></div>
+</body>
+</html>

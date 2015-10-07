@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:p="http://www.springframework.org/schema/p"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean id="employee" class="com.emc.training.simple.xml.Employee" scope="prototype" autowire="byName">
+    <property name="empId" value="1"></property>
+    <property name="empName" value="Ramesh"></property>
+    <property name="designation" value="Developer"></property>
+    <property name="salary" value="1000"></property>
+    <!-- when not available, the IOC throws NPE so autowire should be used. it uses automatic injection 
+    <property name="address" ref="myadd"></property>
+     -->
+  </bean>
+
+<!--  using p namespace. p stands for properties; makes it more readable -->
+  <bean id="emp1" class="com.emc.training.simple.xml.Employee" 
+  p:empId="111" p:empName="Rajkumar" p:designation="clerk" p:salary="20200" />
+
+  <bean id="myadd1" class="com.emc.training.simple.xml.Address" scope="prototype">
+    <property name="location" value="Jayanagar"></property>
+    <property name="city" value="Bangalore"></property>
+  </bean>
+<!-- 
+org.springframework.beans.factory.NoUniqueBeanDefinitionException: No qualifying bean of type [com.emc.training.Address] is defined:
+-->
+  <bean id="address" class="com.emc.training.simple.xml.Address" scope="prototype">
+    <property name="location" value="Jayanagar"></property>
+    <property name="city" value="Bangalore"></property>
+  </bean>
+
+</beans>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+  <!--  mysql 5 onwards org.gjt.mm.mysql.Driver is used as it is more sophisticated one -->
+    <property name="hibernate.connection.driver_class">org.gjt.mm.mysql.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/corespringdb</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.password">Password@123</property>
+
+    <!-- 
+    creating db specific sql statements from hibernate APIs 
+    each database will have its own dialect. so mysql dialect is different than oracle dialect
+    -->
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+    
+    <property name="hibernate.hbm2ddl.auto">create</property>
+    <property name="hibernate.show_sql">true</property>
+    
+    <!-- instead of mapping resource, we use mapping class to locate the entity class -->
+    <mapping class = "com.emc.training.hibernate.annotations.Customer" />
+    <mapping class = "com.emc.training.hibernate.annotations.Address" />
+  </session-factory>
+</hibernate-configuration>

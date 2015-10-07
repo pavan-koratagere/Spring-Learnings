@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+
+  <bean id="instrumentalist" class="com.emc.training.aop.xml.Instrumentalist" />
+  <bean id="audience" class="com.emc.training.aop.xml.Audience" />
+
+  <aop:config>
+  <!--  
+  execution(* com.emc.training.aop.xml.Instrumentalist.play())// * is the return type of the method
+  execution(* com.emc.training.aop.xml.Instrumentalist.play(..)) // takes any parameters
+  execution(* com.emc.training.aop.xml.Instrumentalist.*(..)) // *(..) indicates all methods in the class
+  target(com.emc.training.aop.xml.Instrumentalist) // target is used to specify the class and used to invoke all the methods
+   -->
+    <!-- <aop:pointcut id="audiencePointCut" expression="execution(* com.emc.training.aop.xml.Instrumentalist.play(..))" /> -->
+    <aop:pointcut id="audiencePointCut" expression="target(com.emc.training.aop.xml.Instrumentalist)" />
+    <aop:aspect ref="audience">
+      <aop:before method="takeSeats" pointcut-ref="audiencePointCut" />
+      <aop:before method="switchOffMobilePhones" pointcut-ref="audiencePointCut" />
+      <aop:after-returning method="applaud" pointcut-ref="audiencePointCut" />
+      <aop:after method="returnHome" pointcut-ref="audiencePointCut" />
+    </aop:aspect>
+  </aop:config>
+</beans>
