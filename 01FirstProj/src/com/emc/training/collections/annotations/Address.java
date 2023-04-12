@@ -9,7 +9,8 @@ public class Address
 {
     private String location = "Majestic";
     private String city = "Bangalore";
-
+    private String area = "RRNagar";
+    
     public String getLocation()
     {
         return location;
